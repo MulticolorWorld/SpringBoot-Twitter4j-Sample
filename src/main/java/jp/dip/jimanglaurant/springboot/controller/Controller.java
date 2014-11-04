@@ -1,6 +1,5 @@
 package jp.dip.jimanglaurant.springboot.controller;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,11 +25,11 @@ public class Controller {
     }
 
     @RequestMapping(value = "login",method = RequestMethod.GET)
-    void login(RedirectAttributes attributes,HttpServletResponse response){
+    void login(HttpServletResponse response){
 
         try {
             twitter = new TwitterFactory().getInstance();
-            twitter.setOAuthConsumer("こんしゅまーきー","こんしゅまーしーくれっと");
+            twitter.setOAuthConsumer("hVCyeg4lKjdHhEKRTOHQA","1wUzgZdHyYnfFJULUMl7LjwiSdKWaujnvfR8KzWiVM");
             requestToken = twitter.getOAuthRequestToken("http://localhost:8080/callback");
             response.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {
@@ -41,17 +40,17 @@ public class Controller {
     }
 
     @RequestMapping(value = "callback",method = RequestMethod.GET)
-    String callback(Model model,HttpServletRequest request){
+    String callback(RedirectAttributes attributes,HttpServletRequest request){
 
         String verifier = request.getParameter("oauth_verifier");
 
         try {
             twitter.getOAuthAccessToken(requestToken, verifier);
-            model.addAttribute("screenName",twitter.getScreenName());
+            attributes.addFlashAttribute("screenName",twitter.getScreenName());
         } catch (TwitterException e) {
             e.printStackTrace();
         }
 
-        return "mypage";
+        return "redirect:/mypage";
     }
 }
