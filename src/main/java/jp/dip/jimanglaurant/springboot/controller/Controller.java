@@ -29,7 +29,7 @@ public class Controller {
 
         try {
             twitter = new TwitterFactory().getInstance();
-            twitter.setOAuthConsumer("hVCyeg4lKjdHhEKRTOHQA","1wUzgZdHyYnfFJULUMl7LjwiSdKWaujnvfR8KzWiVM");
+            twitter.setOAuthConsumer("こんしゅまーきー","こんしゅまーしーくれっと");
             requestToken = twitter.getOAuthRequestToken("http://localhost:8080/callback");
             response.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {
